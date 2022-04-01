@@ -1,2 +1,5 @@
 # Tetris
-tetris
+
+## GCC Install
+http://mingw-w64.org/
+
