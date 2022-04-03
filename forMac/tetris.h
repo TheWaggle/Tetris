@@ -15,9 +15,13 @@
 #define DEFAULT_POS_X 5
 #define DEFAULT_POS_Y (-MINO_HEIGHT + 1)
 
-#define bool _Bool
 #define true 1
 #define false 0
+
+#define LINE1 100
+#define LINE2 200
+#define LINE3 300
+#define LINE4 1000
 
 enum
 {
@@ -350,7 +354,6 @@ void draw()
 {
     copyField();
     writeMino(displayBuffer, minoX, minoY, minoType, minoAngle);
-
     for (int y = 0; y < FIELD_HEIGHT; ++y)
     {
         for (int x = 0; x < FIELD_WIDTH; x++)
@@ -366,9 +369,15 @@ bool isGameOver(int flag){
   return flag ? true : false;
 }
 
+//Score
+int calcScore(int line){
+    if(line == 1) return LINE1; 
+    if(line == 2) return LINE2*2; 
+    if(line == 3) return LINE3*3; 
+    if(line == 4) return LINE4*4;
+}
 
-
-int main(void)
+int tetris(void)
 {
     system("chcp 65001");
 
@@ -380,6 +389,7 @@ int main(void)
 
     while (1)
     {
+        int line = 0;
         int dx = 0; //横移動
         int dy = 0; //縦移動
         int da = 0; //回転
@@ -415,6 +425,13 @@ int main(void)
             t = time(NULL);
             dy++;
 
+            // GameOver判定
+            if(isGameOver(1)){
+                //debug 0でGameOverにジャンプ
+                return 0;
+            }
+
+
             if (check(minoX + dx, minoY + dy, minoType, minoAngle + da))
             {
                 moveMino(&minoX, &minoY, &minoAngle, dx, dy, da);
@@ -441,10 +458,13 @@ int main(void)
                             for (int j = 0; j < FIELD_WIDTH; j++)
                             {
                                 field[j][i] = field[j][i - 1];
+                                line += 1;
                             }
                             y--;
                         }
+                        score = calcScore(line);
                     }
+                    line = 0;
                     resetMino();
                 }
             }
