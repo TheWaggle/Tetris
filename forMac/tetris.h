@@ -18,10 +18,10 @@
 #define true 1
 #define false 0
 
-#define LINE1 100
-#define LINE2 200
-#define LINE3 300
-#define LINE4 1000
+#define LINE1 1
+#define LINE2 2
+#define LINE3 3
+#define LINE4 10
 
 enum
 {
@@ -428,7 +428,7 @@ int tetris(void)
             // GameOver判定
             if(isGameOver(1)){
                 //debug 0でGameOverにジャンプ
-                return 0;
+                return 100000;
             }
 
 
